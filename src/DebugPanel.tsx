@@ -2,64 +2,101 @@ import { useState } from 'react'
 
 const SLIDER_COUNT = 20
 
-const panelStyle: React.CSSProperties = {
+const wrapperStyle: React.CSSProperties = {
   position: 'fixed',
   top: '24px',
   right: '24px',
   width: '260px',
-  height: '360px',
-  background: 'rgba(255, 255, 255, 0.12)',
-  border: '1px solid rgba(255, 255, 255, 0.35)',
-  borderRadius: '20px',
-  boxShadow: `
-    0 8px 32px rgba(0, 0, 0, 0.45),
-    0 1.5px 0px rgba(255,255,255,0.5) inset,
-    0 -1px 0px rgba(255,255,255,0.08) inset
-  `,
-  backdropFilter: 'blur(28px) saturate(180%) brightness(1.1)',
-  WebkitBackdropFilter: 'blur(28px) saturate(180%) brightness(1.1)',
-  padding: '16px',
   zIndex: 10,
+}
+
+const panelStyle: React.CSSProperties = {
+  position: 'relative',
+  height: '360px',
+  background: `
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0, 0, 0, 0.05) 3px,
+      rgba(0, 0, 0, 0.05) 4px
+    ),
+    rgba(2, 8, 22, 0.95)
+  `,
+  border: '1px solid rgba(255, 90, 20, 0.25)',
+  padding: '18px',
   display: 'flex',
   flexDirection: 'column',
-  gap: '0',
   overflow: 'hidden',
 }
 
 const headerStyle: React.CSSProperties = {
-  color: 'rgba(255,255,255,0.9)',
-  fontSize: '13px',
-  fontWeight: 600,
-  letterSpacing: '0.08em',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '6px',
+  color: '#ff5a14',
+  fontFamily: "'SykeMono', monospace",
+  fontSize: '11px',
+  fontWeight: 400,
+  letterSpacing: '0.16em',
   textTransform: 'uppercase',
-  marginBottom: '12px',
+  marginBottom: '10px',
   flexShrink: 0,
-  textShadow: '0 1px 4px rgba(0,0,0,0.5)',
+  textShadow: '0 0 10px rgba(255, 90, 20, 0.7), 0 0 22px rgba(255, 90, 20, 0.25)',
+}
+
+const headerPrefixStyle: React.CSSProperties = {
+  color: 'rgba(255, 90, 20, 0.3)',
+  fontFamily: "'SykeMono', monospace",
+  fontSize: '11px',
+}
+
+const headerDividerStyle: React.CSSProperties = {
+  height: '1px',
+  flexShrink: 0,
+  marginBottom: '14px',
+  background: 'linear-gradient(to right, rgba(255, 90, 20, 0.45), rgba(255, 90, 20, 0.08), transparent)',
 }
 
 const scrollAreaStyle: React.CSSProperties = {
   overflowY: 'auto',
   display: 'flex',
   flexDirection: 'column',
-  gap: '14px',
-  paddingRight: '4px',
+  gap: '12px',
+  paddingRight: '6px',
+  flex: 1,
   scrollbarWidth: 'thin',
-  scrollbarColor: 'rgba(255,255,255,0.25) transparent',
+  scrollbarColor: 'rgba(255, 90, 20, 0.25) transparent',
 }
 
 const sliderRowStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
-  gap: '4px',
+  gap: '5px',
 }
 
-const labelStyle: React.CSSProperties = {
+const labelRowStyle: React.CSSProperties = {
   display: 'flex',
   justifyContent: 'space-between',
-  color: 'rgba(255,255,255,0.75)',
-  fontSize: '12px',
-  fontWeight: 500,
-  textShadow: '0 1px 3px rgba(0,0,0,0.4)',
+  alignItems: 'baseline',
+}
+
+const labelNameStyle: React.CSSProperties = {
+  fontFamily: "'AkkuratMono', monospace",
+  color: 'rgba(255, 140, 80, 0.5)',
+  fontSize: '10px',
+  letterSpacing: '0.1em',
+  textTransform: 'uppercase',
+}
+
+const labelValueStyle: React.CSSProperties = {
+  fontFamily: "'AkkuratMono', monospace",
+  color: '#ff5a14',
+  fontSize: '10px',
+  textShadow: '0 0 6px rgba(255, 90, 20, 0.5)',
+  fontVariantNumeric: 'tabular-nums',
+  minWidth: '28px',
+  textAlign: 'right',
 }
 
 export default function DebugPanel() {
@@ -76,25 +113,31 @@ export default function DebugPanel() {
   }
 
   return (
-    <div style={panelStyle}>
-      <div style={headerStyle}>Debug Panel</div>
-      <div style={scrollAreaStyle}>
-        {values.map((val, i) => (
-          <div key={i} style={sliderRowStyle}>
-            <div style={labelStyle}>
-              <span>Test {i + 1}</span>
-              <span>{val}</span>
+    <div style={wrapperStyle}>
+      <div className="debug-panel" style={panelStyle}>
+        <div style={headerStyle}>
+          <span style={headerPrefixStyle}>//</span>
+          Debug Panel
+        </div>
+        <div style={headerDividerStyle} />
+        <div className="debug-scroll" style={scrollAreaStyle}>
+          {values.map((val, i) => (
+            <div key={i} style={sliderRowStyle}>
+              <div style={labelRowStyle}>
+                <span style={labelNameStyle}>Param_{String(i + 1).padStart(2, '0')}</span>
+                <span style={labelValueStyle}>{String(val).padStart(3, '0')}</span>
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={100}
+                value={val}
+                onChange={e => handleChange(i, Number(e.target.value))}
+                className="debug-slider"
+              />
             </div>
-            <input
-              type="range"
-              min={0}
-              max={100}
-              value={val}
-              onChange={e => handleChange(i, Number(e.target.value))}
-              style={{ width: '100%', accentColor: 'rgba(180,210,255,0.9)', cursor: 'pointer' }}
-            />
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   )

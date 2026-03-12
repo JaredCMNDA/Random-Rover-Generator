@@ -1,3 +1,71 @@
+@font-face {
+  font-family: 'SykeMono';
+  src: url('/fonts/syke_mono/syke_mono_regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'SykeMono';
+  src: url('/fonts/syke_mono/syke_mono_italic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'SykeMono';
+  src: url('/fonts/syke_mono/syke_mono_medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'SykeMono';
+  src: url('/fonts/syke_mono/syke_mono_medium_italic.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'SykeMono';
+  src: url('/fonts/syke_mono/syke_mono_bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'SykeMono';
+  src: url('/fonts/syke_mono/syke_mono_bold_italic.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'SykeMono';
+  src: url('/fonts/syke_mono/syke_mono_light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'SykeMono';
+  src: url('/fonts/syke_mono/syke_mono_light_italic.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'SykeMono';
+  src: url('/fonts/syke_mono/syke_mono_thin.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'SykeMono';
+  src: url('/fonts/syke_mono/syke_mono_thin_italic.otf') format('opentype');
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'AkkuratMono';
+  src: url('/fonts/akkurat_mono/Akkurat Pro-Mono.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -11,4 +79,99 @@ body,
   height: 100%;
   overflow: hidden;
   background: #050c17;
+}
+
+@keyframes debug-glow {
+  0%, 100% {
+    filter:
+      drop-shadow(0 0 4px rgba(255, 90, 20, 0.25))
+      drop-shadow(0 0 14px rgba(255, 90, 20, 0.08));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 8px rgba(255, 90, 20, 0.45))
+      drop-shadow(0 0 24px rgba(255, 90, 20, 0.15));
+  }
+}
+
+.debug-panel {
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
+  animation: debug-glow 4s ease-in-out infinite;
+}
+
+.debug-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 90, 20, 0.15);
+  cursor: pointer;
+  outline: none;
+  border-radius: 0;
+  display: block;
+  margin: 0;
+}
+
+.debug-slider::-webkit-slider-runnable-track {
+  height: 2px;
+  background: rgba(255, 90, 20, 0.15);
+  border-radius: 0;
+}
+
+.debug-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 9px;
+  height: 9px;
+  margin-top: -4px;
+  background: #ff5a14;
+  cursor: pointer;
+  border-radius: 0;
+  border: none;
+  transform: rotate(45deg);
+  box-shadow: 0 0 6px rgba(255, 90, 20, 0.9), 0 0 14px rgba(255, 90, 20, 0.35);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.debug-slider:hover::-webkit-slider-thumb {
+  box-shadow: 0 0 10px rgba(255, 90, 20, 1), 0 0 20px rgba(255, 90, 20, 0.5);
+  transform: rotate(45deg) scale(1.25);
+}
+
+.debug-slider::-moz-range-track {
+  height: 2px;
+  background: rgba(255, 90, 20, 0.15);
+  border-radius: 0;
+}
+
+.debug-slider::-moz-range-progress {
+  height: 2px;
+  background: rgba(255, 90, 20, 0.5);
+}
+
+.debug-slider::-moz-range-thumb {
+  width: 9px;
+  height: 9px;
+  border: none;
+  background: #ff5a14;
+  cursor: pointer;
+  border-radius: 0;
+  transform: rotate(45deg);
+  box-shadow: 0 0 6px rgba(255, 90, 20, 0.9);
+}
+
+.debug-scroll::-webkit-scrollbar {
+  width: 3px;
+}
+
+.debug-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.debug-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 90, 20, 0.25);
+  border-radius: 0;
+}
+
+.debug-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 90, 20, 0.5);
 }
